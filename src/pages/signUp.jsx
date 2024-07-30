@@ -1,4 +1,3 @@
-// src/components/SignUp.js
 import React, { useState } from 'react';
 import Footer from '../components/footer';
 import Header from '../components/header';
@@ -12,22 +11,43 @@ const SignUp = () => {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [error, setError] = useState('');
 
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setError('');
+
+    if (!email || !password || !passwordConfirmation) {
+      setError('All fields are required');
+      return;
+    }
     
+    if (!validateEmail(email)) {
+      setError('Invalid email format');
+      return;
+    }
+
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      return;
+    }
+
     if (password !== passwordConfirmation) {
       setError('Passwords do not match');
       return;
     }
-    
+
     if (!acceptTerms) {
       setError('You must accept the terms and conditions');
       return;
     }
-    
-    setError('');
+
     alert('Form submitted successfully!');
-    
+
     setEmail('');
     setPassword('');
     setPasswordConfirmation('');

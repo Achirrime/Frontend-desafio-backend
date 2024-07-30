@@ -1,25 +1,44 @@
-// src/components/Login.js
 import React, { useState } from 'react';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import { PiLockKeyBold } from 'react-icons/pi';
 import { BiEnvelope } from 'react-icons/bi';
 
+
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     
+    setError('');
+
     if (!email || !password) {
       setError('Both fields are required');
       return;
     }
     
-    setError('');
+    if (!validateEmail(email)) {
+      setError('Invalid email format');
+      return;
+    }
+
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      return;
+    }
+    
+    
     alert('Login successful!');
+    
     
     setEmail('');
     setPassword('');
